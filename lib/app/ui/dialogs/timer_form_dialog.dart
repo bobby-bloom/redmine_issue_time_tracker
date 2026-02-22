@@ -23,7 +23,7 @@ class TimerFormDialog extends ConsumerWidget {
     Future<void> handleSubmit(Map<FormKey, dynamic> form) async {
       bool succeded = false;
       try {
-        await onSubmit?.call(int.tryParse(form[idFormKey]));
+        await onSubmit?.call(int.tryParse(form[idFormKey] ?? ''));
         succeded = true;
       } catch (error) {
         if (context.mounted) {
