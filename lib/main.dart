@@ -96,14 +96,16 @@ class MainPage extends HookConsumerWidget {
                 child: TabBarView(
                   controller: tabCtl,
                   children: [
-                    Column(
-                      children: [
-                        Padding(
-                          padding: context.paddingMD,
-                          child: const UserCard(),
-                        ),
-                        const SettingsPage(),
-                      ],
+                    pageScrollView(
+                      Column(
+                        children: [
+                          Padding(
+                            padding: context.paddingMD,
+                            child: const UserCard(),
+                          ),
+                          SettingsPage(key: UniqueKey()),
+                        ],
+                      ),
                     ),
                     const TimersPage(),
                     const IssuesPage(),
@@ -114,6 +116,13 @@ class MainPage extends HookConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget pageScrollView(Widget child) {
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: child,
     );
   }
 }

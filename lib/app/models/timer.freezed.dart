@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Timer {
 
- String get id; Duration get totalTime; bool get isRunning; DateTime? get lastStartOn; int? get issueId; RedmineIssue? get issue;
+ String get id; Duration get totalTime; bool get isRunning; DateTime? get lastStartOn; int? get issueId; RedmineIssue? get issue;// Can be set when there is currently no issue
+ String? get subject;
 /// Create a copy of Timer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $TimerCopyWith<Timer> get copyWith => _$TimerCopyWithImpl<Timer>(this as Timer, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Timer&&(identical(other.id, id) || other.id == id)&&(identical(other.totalTime, totalTime) || other.totalTime == totalTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.lastStartOn, lastStartOn) || other.lastStartOn == lastStartOn)&&(identical(other.issueId, issueId) || other.issueId == issueId)&&(identical(other.issue, issue) || other.issue == issue));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Timer&&(identical(other.id, id) || other.id == id)&&(identical(other.totalTime, totalTime) || other.totalTime == totalTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.lastStartOn, lastStartOn) || other.lastStartOn == lastStartOn)&&(identical(other.issueId, issueId) || other.issueId == issueId)&&(identical(other.issue, issue) || other.issue == issue)&&(identical(other.subject, subject) || other.subject == subject));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,totalTime,isRunning,lastStartOn,issueId,issue);
+int get hashCode => Object.hash(runtimeType,id,totalTime,isRunning,lastStartOn,issueId,issue,subject);
 
 @override
 String toString() {
-  return 'Timer(id: $id, totalTime: $totalTime, isRunning: $isRunning, lastStartOn: $lastStartOn, issueId: $issueId, issue: $issue)';
+  return 'Timer(id: $id, totalTime: $totalTime, isRunning: $isRunning, lastStartOn: $lastStartOn, issueId: $issueId, issue: $issue, subject: $subject)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $TimerCopyWith<$Res>  {
   factory $TimerCopyWith(Timer value, $Res Function(Timer) _then) = _$TimerCopyWithImpl;
 @useResult
 $Res call({
- String id, Duration totalTime, bool isRunning, DateTime? lastStartOn, int? issueId, RedmineIssue? issue
+ String id, Duration totalTime, bool isRunning, DateTime? lastStartOn, int? issueId, RedmineIssue? issue, String? subject
 });
 
 
@@ -65,7 +66,7 @@ class _$TimerCopyWithImpl<$Res>
 
 /// Create a copy of Timer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? totalTime = null,Object? isRunning = null,Object? lastStartOn = freezed,Object? issueId = freezed,Object? issue = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? totalTime = null,Object? isRunning = null,Object? lastStartOn = freezed,Object? issueId = freezed,Object? issue = freezed,Object? subject = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,totalTime: null == totalTime ? _self.totalTime : totalTime // ignore: cast_nullable_to_non_nullable
@@ -73,7 +74,8 @@ as Duration,isRunning: null == isRunning ? _self.isRunning : isRunning // ignore
 as bool,lastStartOn: freezed == lastStartOn ? _self.lastStartOn : lastStartOn // ignore: cast_nullable_to_non_nullable
 as DateTime?,issueId: freezed == issueId ? _self.issueId : issueId // ignore: cast_nullable_to_non_nullable
 as int?,issue: freezed == issue ? _self.issue : issue // ignore: cast_nullable_to_non_nullable
-as RedmineIssue?,
+as RedmineIssue?,subject: freezed == subject ? _self.subject : subject // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -158,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  Duration totalTime,  bool isRunning,  DateTime? lastStartOn,  int? issueId,  RedmineIssue? issue)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  Duration totalTime,  bool isRunning,  DateTime? lastStartOn,  int? issueId,  RedmineIssue? issue,  String? subject)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Timer() when $default != null:
-return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that.issueId,_that.issue);case _:
+return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that.issueId,_that.issue,_that.subject);case _:
   return orElse();
 
 }
@@ -179,10 +181,10 @@ return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  Duration totalTime,  bool isRunning,  DateTime? lastStartOn,  int? issueId,  RedmineIssue? issue)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  Duration totalTime,  bool isRunning,  DateTime? lastStartOn,  int? issueId,  RedmineIssue? issue,  String? subject)  $default,) {final _that = this;
 switch (_that) {
 case _Timer():
-return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that.issueId,_that.issue);case _:
+return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that.issueId,_that.issue,_that.subject);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +201,10 @@ return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  Duration totalTime,  bool isRunning,  DateTime? lastStartOn,  int? issueId,  RedmineIssue? issue)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  Duration totalTime,  bool isRunning,  DateTime? lastStartOn,  int? issueId,  RedmineIssue? issue,  String? subject)?  $default,) {final _that = this;
 switch (_that) {
 case _Timer() when $default != null:
-return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that.issueId,_that.issue);case _:
+return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that.issueId,_that.issue,_that.subject);case _:
   return null;
 
 }
@@ -214,7 +216,7 @@ return $default(_that.id,_that.totalTime,_that.isRunning,_that.lastStartOn,_that
 @JsonSerializable()
 
 class _Timer implements Timer {
-  const _Timer({required this.id, required this.totalTime, required this.isRunning, this.lastStartOn, this.issueId, this.issue});
+  const _Timer({required this.id, required this.totalTime, required this.isRunning, this.lastStartOn, this.issueId, this.issue, this.subject});
   factory _Timer.fromJson(Map<String, dynamic> json) => _$TimerFromJson(json);
 
 @override final  String id;
@@ -223,6 +225,8 @@ class _Timer implements Timer {
 @override final  DateTime? lastStartOn;
 @override final  int? issueId;
 @override final  RedmineIssue? issue;
+// Can be set when there is currently no issue
+@override final  String? subject;
 
 /// Create a copy of Timer
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Timer&&(identical(other.id, id) || other.id == id)&&(identical(other.totalTime, totalTime) || other.totalTime == totalTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.lastStartOn, lastStartOn) || other.lastStartOn == lastStartOn)&&(identical(other.issueId, issueId) || other.issueId == issueId)&&(identical(other.issue, issue) || other.issue == issue));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Timer&&(identical(other.id, id) || other.id == id)&&(identical(other.totalTime, totalTime) || other.totalTime == totalTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.lastStartOn, lastStartOn) || other.lastStartOn == lastStartOn)&&(identical(other.issueId, issueId) || other.issueId == issueId)&&(identical(other.issue, issue) || other.issue == issue)&&(identical(other.subject, subject) || other.subject == subject));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,totalTime,isRunning,lastStartOn,issueId,issue);
+int get hashCode => Object.hash(runtimeType,id,totalTime,isRunning,lastStartOn,issueId,issue,subject);
 
 @override
 String toString() {
-  return 'Timer(id: $id, totalTime: $totalTime, isRunning: $isRunning, lastStartOn: $lastStartOn, issueId: $issueId, issue: $issue)';
+  return 'Timer(id: $id, totalTime: $totalTime, isRunning: $isRunning, lastStartOn: $lastStartOn, issueId: $issueId, issue: $issue, subject: $subject)';
 }
 
 
@@ -257,7 +261,7 @@ abstract mixin class _$TimerCopyWith<$Res> implements $TimerCopyWith<$Res> {
   factory _$TimerCopyWith(_Timer value, $Res Function(_Timer) _then) = __$TimerCopyWithImpl;
 @override @useResult
 $Res call({
- String id, Duration totalTime, bool isRunning, DateTime? lastStartOn, int? issueId, RedmineIssue? issue
+ String id, Duration totalTime, bool isRunning, DateTime? lastStartOn, int? issueId, RedmineIssue? issue, String? subject
 });
 
 
@@ -274,7 +278,7 @@ class __$TimerCopyWithImpl<$Res>
 
 /// Create a copy of Timer
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? totalTime = null,Object? isRunning = null,Object? lastStartOn = freezed,Object? issueId = freezed,Object? issue = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? totalTime = null,Object? isRunning = null,Object? lastStartOn = freezed,Object? issueId = freezed,Object? issue = freezed,Object? subject = freezed,}) {
   return _then(_Timer(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,totalTime: null == totalTime ? _self.totalTime : totalTime // ignore: cast_nullable_to_non_nullable
@@ -282,7 +286,8 @@ as Duration,isRunning: null == isRunning ? _self.isRunning : isRunning // ignore
 as bool,lastStartOn: freezed == lastStartOn ? _self.lastStartOn : lastStartOn // ignore: cast_nullable_to_non_nullable
 as DateTime?,issueId: freezed == issueId ? _self.issueId : issueId // ignore: cast_nullable_to_non_nullable
 as int?,issue: freezed == issue ? _self.issue : issue // ignore: cast_nullable_to_non_nullable
-as RedmineIssue?,
+as RedmineIssue?,subject: freezed == subject ? _self.subject : subject // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

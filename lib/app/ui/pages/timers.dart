@@ -40,10 +40,13 @@ class TimersPage extends HookConsumerWidget {
                 onPressed: () => showDialog(
                   context: context,
                   builder: (context) => TimerFormDialog(
-                    onSubmit: (issueId) async {
+                    onSubmit: (issueId, subject) async {
                       final timersCtl = ref.read(timersProvider.notifier);
 
-                      await timersCtl.create(issueId: issueId);
+                      await timersCtl.create(
+                        issueId: issueId,
+                        subject: subject,
+                      );
                     },
                   ),
                 ),
@@ -110,9 +113,9 @@ class TimersGrid extends HookConsumerWidget {
         key: ValueKey(timer.id),
         timer: timer,
         onDelete: () => ref.read(timersProvider.notifier).remove(timer.id),
-        onEdit: (issueId) => ref
+        onEdit: (issueId, subject) => ref
             .read(timersProvider.notifier)
-            .update(timer.id, issueId: issueId),
+            .update(timer.id, issueId: issueId, subject: subject),
         onRefreshIssue: (timer) =>
             ref.read(timersProvider.notifier).fetchIssue(timer.id),
       );

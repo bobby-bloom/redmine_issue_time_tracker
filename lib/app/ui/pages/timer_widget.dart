@@ -79,7 +79,7 @@ class TimerWidgetContentTop extends StatelessWidget {
       crossAxisAlignment: .start,
       children: [
         Text(
-          timer.issue?.subject ?? 'Manual Timer',
+          timer.issue?.subject ?? timer.subject ?? 'Manual Timer',
           style: context.textTheme.titleMedium?.copyWith(fontWeight: .bold),
           maxLines: 2,
           overflow: .ellipsis,
@@ -243,36 +243,37 @@ class TimerWidgetContentBottom extends HookConsumerWidget {
             ],
           ),
         ),
-        Padding(
-          padding: context.paddingSM.copyWith(
-            right: context.paddingLG.right,
-            bottom: 0,
+        if (timer.issue != null)
+          Padding(
+            padding: context.paddingSM.copyWith(
+              right: context.paddingLG.right,
+              bottom: 0,
+            ),
+            child: Row(
+              children: [
+                FilledButton(
+                  onPressed: () => onRefreshIssue == null
+                      ? null
+                      : () => onRefreshIssue!(timer),
+                  child: Row(
+                    spacing: context.paddingSM.left,
+                    children: [Icon(Icons.update_outlined)],
+                  ),
+                ),
+                context.gapSM,
+                FilledButton(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => PostTimeDialog(timer: timer),
+                  ),
+                  child: Row(
+                    spacing: context.paddingSM.left,
+                    children: [Icon(Icons.timer_outlined), Text('Post')],
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Row(
-            children: [
-              FilledButton(
-                onPressed: () => onRefreshIssue == null
-                    ? null
-                    : () => onRefreshIssue!(timer),
-                child: Row(
-                  spacing: context.paddingSM.left,
-                  children: [Icon(Icons.update_outlined)],
-                ),
-              ),
-              context.gapSM,
-              FilledButton(
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (context) => PostTimeDialog(timer: timer),
-                ),
-                child: Row(
-                  spacing: context.paddingSM.left,
-                  children: [Icon(Icons.timer_outlined), Text('Post')],
-                ),
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }

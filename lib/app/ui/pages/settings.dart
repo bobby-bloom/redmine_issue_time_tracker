@@ -87,6 +87,7 @@ class SettingsPage extends HookConsumerWidget {
         ),
         child: Column(
           spacing: context.paddingXL.left,
+          mainAxisSize: .min,
           children: [
             shadcn.FormField(
               key: hostFormKey,

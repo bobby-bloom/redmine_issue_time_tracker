@@ -118,114 +118,120 @@ class PostTimeDialog extends HookConsumerWidget {
 
     return Dialog(
       backgroundColor: context.colorScheme.surfaceContainerLowest,
-      child: Container(
-        padding: context.paddingXL.copyWith(top: 24, bottom: 12),
-        constraints: BoxConstraints(maxWidth: 530),
-        child: IntrinsicHeight(
-          child: shadcn.Form(
-            onSubmit: (_, form) => handleSubmit(form),
-            child: Column(
-              spacing: context.paddingMD.bottom,
-              children: [
-                Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    Flexible(
-                      fit: .loose,
-                      child: Column(
-                        mainAxisSize: .min,
-                        crossAxisAlignment: .start,
-                        children: [
-                          Text(
-                            timer.issue?.subject ?? 'Issue not found',
-                            softWrap: true,
-                            style: context.textTheme.headlineSmall,
-                          ),
-                          Text(timer.issue?.project.name ?? '', softWrap: true),
-                        ],
-                      ),
-                    ),
-                    IconButton.filled(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: Icon(
-                        Icons.close,
-                        color: context.colorScheme.onSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-                shadcn.FormField(
-                  key: userIdFormKey,
-                  label: shadcn.Text('User id'),
-                  validator: shadcn.NotEmptyValidator(),
-                  child: shadcn.TextField(initialValue: user?.id.toString()),
-                ),
-                shadcn.FormField(
-                  key: projectIdFormKey,
-                  label: shadcn.Text('Project id'),
-                  validator: shadcn.NotEmptyValidator(),
-                  child: shadcn.TextField(
-                    initialValue: projectId.value,
-                    onChanged: (value) => projectId.value = value,
-                  ),
-                ),
-                shadcn.FormField(
-                  key: issueIdFormKey,
-                  label: shadcn.Text('Issue id'),
-                  child: shadcn.TextField(
-                    initialValue: timer.issueId?.toString(),
-                  ),
-                ),
-                shadcn.FormField(
-                  key: activityFormKey,
-                  validator: shadcn.NonNullValidator(),
-                  label: SizedBox(height: 0, width: 0),
-                  child: Row(
+      clipBehavior: .hardEdge,
+      child: SingleChildScrollView(
+        child: Container(
+          padding: context.paddingXL.copyWith(top: 24, bottom: 12),
+          constraints: BoxConstraints(maxWidth: 530),
+          child: IntrinsicHeight(
+            child: shadcn.Form(
+              onSubmit: (_, form) => handleSubmit(form),
+              child: Column(
+                spacing: context.paddingMD.bottom,
+                children: [
+                  Row(
                     mainAxisAlignment: .spaceBetween,
                     children: [
-                      shadcn.Text('Activity'),
-                      SelectRedmineActivity(
-                        inputKey: activityFormKey,
-                        onChange: (x) => activity.value = x,
-                        initialValue: activity.value,
-                        projectId: projectId.value == null
-                            ? null
-                            : int.tryParse(projectId.value!),
+                      Flexible(
+                        fit: .loose,
+                        child: Column(
+                          mainAxisSize: .min,
+                          crossAxisAlignment: .start,
+                          children: [
+                            Text(
+                              timer.issue?.subject ?? 'Issue not found',
+                              softWrap: true,
+                              style: context.textTheme.headlineSmall,
+                            ),
+                            Text(
+                              timer.issue?.project.name ?? '',
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton.filled(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: Icon(
+                          Icons.close,
+                          color: context.colorScheme.onSecondary,
+                        ),
                       ),
                     ],
                   ),
-                ),
-                shadcn.FormField(
-                  key: commentsFormKey,
-                  label: shadcn.Text('Comment'),
-                  validator: shadcn.LengthValidator(min: 1, max: 255),
-                  child: shadcn.TextField(),
-                ),
-                Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    shadcn.Text('Time spent'),
-                    shadcn.DurationInput(
-                      initialValue: hoursCtl.value.value,
-                      controller: hoursCtl.value,
-                      onChanged: (duration) => duration == null
-                          ? null
-                          : hoursCtl.value.value = duration,
+                  shadcn.FormField(
+                    key: userIdFormKey,
+                    label: shadcn.Text('User id'),
+                    validator: shadcn.NotEmptyValidator(),
+                    child: shadcn.TextField(initialValue: user?.id.toString()),
+                  ),
+                  shadcn.FormField(
+                    key: projectIdFormKey,
+                    label: shadcn.Text('Project id'),
+                    validator: shadcn.NotEmptyValidator(),
+                    child: shadcn.TextField(
+                      initialValue: projectId.value,
+                      onChanged: (value) => projectId.value = value,
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    Text('Billable'),
-                    Switch(
-                      value: isBillable.value,
-                      onChanged: (value) => isBillable.value = value,
+                  ),
+                  shadcn.FormField(
+                    key: issueIdFormKey,
+                    label: shadcn.Text('Issue id'),
+                    child: shadcn.TextField(
+                      initialValue: timer.issueId?.toString(),
                     ),
-                  ],
-                ),
-                const shadcn.SubmitButton(child: shadcn.Text('Post')),
-              ],
+                  ),
+                  shadcn.FormField(
+                    key: activityFormKey,
+                    validator: shadcn.NonNullValidator(),
+                    label: SizedBox(height: 0, width: 0),
+                    child: Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        shadcn.Text('Activity'),
+                        SelectRedmineActivity(
+                          inputKey: activityFormKey,
+                          onChange: (x) => activity.value = x,
+                          initialValue: activity.value,
+                          projectId: projectId.value == null
+                              ? null
+                              : int.tryParse(projectId.value!),
+                        ),
+                      ],
+                    ),
+                  ),
+                  shadcn.FormField(
+                    key: commentsFormKey,
+                    label: shadcn.Text('Comment'),
+                    validator: shadcn.LengthValidator(min: 1, max: 255),
+                    child: shadcn.TextField(),
+                  ),
+                  Row(
+                    mainAxisAlignment: .spaceBetween,
+                    children: [
+                      shadcn.Text('Time spent'),
+                      shadcn.DurationInput(
+                        initialValue: hoursCtl.value.value,
+                        controller: hoursCtl.value,
+                        onChanged: (duration) => duration == null
+                            ? null
+                            : hoursCtl.value.value = duration,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: .spaceBetween,
+                    children: [
+                      Text('Billable'),
+                      Switch(
+                        value: isBillable.value,
+                        onChanged: (value) => isBillable.value = value,
+                      ),
+                    ],
+                  ),
+                  const shadcn.SubmitButton(child: shadcn.Text('Post')),
+                ],
+              ),
             ),
           ),
         ),

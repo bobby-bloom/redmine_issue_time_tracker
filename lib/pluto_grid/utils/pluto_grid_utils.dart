@@ -39,7 +39,6 @@ class PlutoGridUtils {
     return PlutoGridColumnState(
       order: order,
       visible: !column.hide,
-      width: column.width,
       frozen: column.frozen,
       sort: column.sort,
     );
@@ -97,10 +96,6 @@ class PlutoGridUtils {
       final shouldHide = !state.visible;
       if (column.hide != shouldHide) {
         stateManager.hideColumn(column, shouldHide);
-      }
-
-      if (column.width != state.width) {
-        stateManager.resizeColumn(column, state.width);
       }
 
       if (column.frozen != state.frozen) {

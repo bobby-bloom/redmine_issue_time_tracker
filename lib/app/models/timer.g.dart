@@ -17,6 +17,7 @@ _Timer _$TimerFromJson(Map<String, dynamic> json) => _Timer(
   issue: json['issue'] == null
       ? null
       : RedmineIssue.fromJson(json['issue'] as Map<String, dynamic>),
+  subject: json['subject'] as String?,
 );
 
 Map<String, dynamic> _$TimerToJson(_Timer instance) => <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$TimerToJson(_Timer instance) => <String, dynamic>{
   'lastStartOn': instance.lastStartOn?.toIso8601String(),
   'issueId': instance.issueId,
   'issue': instance.issue,
+  'subject': instance.subject,
 };

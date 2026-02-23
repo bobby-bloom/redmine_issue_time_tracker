@@ -13,6 +13,8 @@ abstract class Timer with _$Timer {
     DateTime? lastStartOn,
     int? issueId,
     RedmineIssue? issue,
+    // Can be set when there is currently no issue
+    String? subject,
   }) = _Timer;
 
   factory Timer.fromJson(Map<String, dynamic> json) => _$TimerFromJson(json);

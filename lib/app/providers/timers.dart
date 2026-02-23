@@ -67,7 +67,11 @@ class Timers extends _$Timers {
     _writeState();
   }
 
-  Future<void> create({int? issueId, RedmineIssue? issue}) async {
+  Future<void> create({
+    int? issueId,
+    RedmineIssue? issue,
+    String? subject,
+  }) async {
     RedmineIssue? issueOut = issue;
 
     if (issue == null && issueId != null ||
@@ -81,6 +85,7 @@ class Timers extends _$Timers {
       isRunning: false,
       issueId: issueId,
       issue: issueOut,
+      subject: subject,
     );
 
     state = [newTimer, ...state];
@@ -88,7 +93,12 @@ class Timers extends _$Timers {
     _writeState();
   }
 
-  Future<void> update(String id, {int? issueId, RedmineIssue? issue}) async {
+  Future<void> update(
+    String id, {
+    int? issueId,
+    RedmineIssue? issue,
+    String? subject,
+  }) async {
     RedmineIssue? issueOut = issue;
 
     if (issue == null && issueId != null && issueId != issue?.id) {
@@ -97,7 +107,11 @@ class Timers extends _$Timers {
 
     state = state.map((timer) {
       if (timer.id == id) {
-        return timer.copyWith(issueId: issueId, issue: issueOut);
+        return timer.copyWith(
+          issueId: issueId,
+          issue: issueOut,
+          subject: subject,
+        );
       }
       return timer;
     }).toList();

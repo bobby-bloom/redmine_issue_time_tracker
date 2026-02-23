@@ -7,7 +7,8 @@ import 'package:shadcn_flutter/shadcn_flutter.dart'
 
 import '../../models/timer.dart';
 
-typedef OnTimerFormDialogSubmit = Future<void> Function(int? issueId);
+typedef OnTimerFormDialogSubmit =
+    Future<void> Function(int? issueId, String? subject);
 
 class TimerFormDialog extends ConsumerWidget {
   const TimerFormDialog({super.key, this.timer, this.onSubmit});
@@ -19,11 +20,15 @@ class TimerFormDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final idFormKey = InputKey('issue-id');
+    final subjectFormKey = InputKey('timer-subject-id');
 
     Future<void> handleSubmit(Map<FormKey, dynamic> form) async {
       bool succeded = false;
       try {
-        await onSubmit?.call(int.tryParse(form[idFormKey] ?? ''));
+        await onSubmit?.call(
+          int.tryParse(form[idFormKey] ?? ''),
+          form[subjectFormKey] as String,
+        );
         succeded = true;
       } catch (error) {
         if (context.mounted) {
@@ -67,13 +72,22 @@ class TimerFormDialog extends ConsumerWidget {
                   ],
                 ),
                 FormField(
+                  key: subjectFormKey,
+                  label: Text('Subject (Will be ignored if there is a issue)'),
+                  child: TextField(
+                    placeholder: const Text('Drink coffee'),
+                    initialValue: (timer?.subject ?? '').toString(),
+                  ),
+                ),
+                FormField(
                   key: idFormKey,
                   label: Text('Issue id'),
                   child: TextField(
                     placeholder: const Text('12345'),
-                    initialValue: timer?.issueId.toString(),
+                    initialValue: (timer?.issueId ?? '').toString(),
                   ),
                 ),
+
                 SubmitButton(child: Text(timer == null ? 'Create' : 'Update')),
               ],
             ),
