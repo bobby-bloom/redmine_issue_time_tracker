@@ -108,12 +108,32 @@ class SettingsPage extends HookConsumerWidget {
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
-                shadcn.Text('Run multiple timers simultaneously'),
-                shadcn.Switch(
-                  value: runMultipleTimersSimultaneously.value,
-                  onChanged: (value) {
-                    runMultipleTimersSimultaneously.value = value;
-                  },
+                shadcn.Text('Status for retrieving issues'),
+                SizedBox(
+                  width: 200,
+                  child: shadcn.Select<RedmineIssueStatus>(
+                    value: fetchIssuesStatus.value,
+                    canUnselect: false,
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      fetchIssuesStatus.value = value;
+                    },
+                    itemBuilder: (context, item) {
+                      return shadcn.Text(item.name);
+                    },
+                    popup: (context) => shadcn.SelectPopup(
+                      items: shadcn.SelectItemList(
+                        children: RedmineIssueStatus.values.map((val) {
+                          return shadcn.SelectItemButton(
+                            value: val,
+                            child: shadcn.Text(val.name),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -135,6 +155,18 @@ class SettingsPage extends HookConsumerWidget {
                   value: deleteTimerAfterTimeEntryPosted.value,
                   onChanged: (value) =>
                       deleteTimerAfterTimeEntryPosted.value = value,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                shadcn.Text('Run multiple timers simultaneously'),
+                shadcn.Switch(
+                  value: runMultipleTimersSimultaneously.value,
+                  onChanged: (value) {
+                    runMultipleTimersSimultaneously.value = value;
+                  },
                 ),
               ],
             ),
@@ -176,8 +208,10 @@ class SettingsPage extends HookConsumerWidget {
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
-                shadcn.Text(
-                  'Set time entry to billable if the name of the tracker is equal to',
+                Flexible(
+                  child: shadcn.Text(
+                    'Set time entry to billable if the name of the tracker is equal to',
+                  ),
                 ),
                 context.gapLG,
                 Flexible(
@@ -193,38 +227,6 @@ class SettingsPage extends HookConsumerWidget {
                       ];
                       return value;
                     },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: .spaceBetween,
-              children: [
-                shadcn.Text('Status for retrieving issues'),
-                SizedBox(
-                  width: 200,
-                  child: shadcn.Select<RedmineIssueStatus>(
-                    value: fetchIssuesStatus.value,
-                    canUnselect: false,
-                    onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
-                      fetchIssuesStatus.value = value;
-                    },
-                    itemBuilder: (context, item) {
-                      return shadcn.Text(item.name);
-                    },
-                    popup: (context) => shadcn.SelectPopup(
-                      items: shadcn.SelectItemList(
-                        children: RedmineIssueStatus.values.map((val) {
-                          return shadcn.SelectItemButton(
-                            value: val,
-                            child: shadcn.Text(val.name),
-                          );
-                        }).toList(),
-                      ),
-                    ),
                   ),
                 ),
               ],
