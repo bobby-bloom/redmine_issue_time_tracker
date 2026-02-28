@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ritt/app/providers/platform_info.dart';
 import 'package:ritt/app/ui/pages/issues.dart';
 import 'package:ritt/app/ui/pages/settings.dart';
 import 'package:ritt/app/providers/shared_preferences.dart';
@@ -46,6 +47,8 @@ class MainPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final platformInfo = ref.watch(platformInfoProvider);
+
     final tabCtl = useTabController(initialLength: 3);
     useListenable(tabCtl);
 
@@ -58,15 +61,20 @@ class MainPage extends HookConsumerWidget {
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
-                Card(
-                  color: context.colorScheme.primary,
-                  margin: EdgeInsets.all(0),
-                  child: Padding(
-                    padding: context.paddingMD,
-                    child: Text(
-                      'redmine issue time tracker',
-                      style: context.textTheme.titleLarge?.copyWith(
-                        color: context.colorScheme.onPrimary,
+                Badge(
+                  alignment: .topRight,
+                  offset: Offset(-12, -5),
+                  label: Text('v${platformInfo.value?.version}'),
+                  child: Card(
+                    color: context.colorScheme.primary,
+                    margin: EdgeInsets.all(0),
+                    child: Padding(
+                      padding: context.paddingMD,
+                      child: Text(
+                        'redmine issue time tracker',
+                        style: context.textTheme.titleLarge?.copyWith(
+                          color: context.colorScheme.onPrimary,
+                        ),
                       ),
                     ),
                   ),
