@@ -3,16 +3,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pluto_grid/pluto_grid.dart' hide PlutoGridState;
 import 'package:ritt/app/ui/dialogs/async_value_dialog.dart';
+import 'package:ritt/app/utils/debounce.dart';
 import 'package:ritt/redmine/models/redmine_issue.dart';
-import 'package:ritt/app/models/timer.dart';
 import 'package:ritt/pluto_grid/providers/pluto_grid_state.dart';
 import 'package:ritt/redmine/providers/redmine_issues.dart';
-import 'package:ritt/app/providers/timers.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
 import 'package:ritt/pluto_grid/utils/pluto_grid_utils.dart';
 import 'package:collection/collection.dart';
-
-import '../../../pluto_grid/models/pluto_grid_state.dart';
+import 'package:ritt/timer/models/timer.dart';
+import 'package:ritt/timer/providers/timers.dart';
 
 class IssuesPage extends HookConsumerWidget {
   const IssuesPage({super.key});
@@ -22,59 +21,41 @@ class IssuesPage extends HookConsumerWidget {
     final issuesProvider = ref.watch(redmineIssuesProvider);
     final issues = ref.read(redmineIssuesProvider.notifier).get();
     final timers = ref.watch(timersProvider);
-
-    final gridState = ref.watch(gridStateProvider);
-    final stateManager = useRef<PlutoGridStateManager?>(null);
-    final resetKey = useState(0);
+    ref.watch(gridStateControllerProvider);
 
     ref.listen(redmineIssuesProvider, (_, state) => state.showError(context));
 
+    final stateManager = useRef<PlutoGridStateManager?>(null);
+    final resetKey = useState(0);
+
     useEffect(() {
-      if (stateManager.value == null) {
+      if (stateManager.value == null || issues.isEmpty) {
         return null;
       }
 
-      final gridStateCtl = ref.read(gridStateProvider.notifier);
+      saveGridState(ref, stateManager);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!context.mounted) {
           return;
         }
 
-        gridStateCtl.setRowGroupExpandend(
-          PlutoGridUtils.saveRowGroupExpandedState(stateManager.value!),
-        );
-
         stateManager.value?.removeAllRows();
         stateManager.value?.appendRows(buildRows(issues, timers));
 
-        PlutoGridUtils.restoreRowGroupExpandedState(
-          stateManager.value!,
-          gridState.expandedRowGroups,
-        );
+        restoreGridState(ref, stateManager);
       });
 
       return null;
     }, [...issues, ...timers]);
 
     useEffect(() {
-      final gridStateCtl = ref.read(gridStateProvider.notifier);
+      final gridStateCtl = ref.read(gridStateControllerProvider.notifier);
 
       return () {
-        if (stateManager.value == null) {
-          return;
-        }
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          gridStateCtl.setColumnsState(
-            PlutoGridUtils.saveColumnsState(stateManager.value!),
-          );
-          gridStateCtl.setRowGroupExpandend(
-            PlutoGridUtils.saveRowGroupExpandedState(stateManager.value!),
-          );
-        });
+        saveGridStateOnDispose(gridStateCtl, stateManager);
       };
-    }, []);
+    }, const []);
 
     return LayoutBuilder(
       builder: (context, contraints) => Stack(
@@ -92,10 +73,12 @@ class IssuesPage extends HookConsumerWidget {
             ),
             mode: .select,
             onRowDoubleTap: (e) async =>
-                await onRowDoubleTap(ref, e.row, issues),
+                await onRowDoubleTap(ref, e.row, stateManager),
             onLoaded: (e) {
               stateManager.value = e.stateManager;
-              onPlutoLoaded(ref, e.stateManager, gridState);
+              onPlutoLoaded(ref, e.stateManager, () {
+                restoreGridState(ref, stateManager);
+              });
             },
             createFooter: (_) => IssuesGridFooter(),
           ),
@@ -116,7 +99,7 @@ class IssuesPage extends HookConsumerWidget {
                 FloatingActionButton(
                   tooltip: 'Reset grid configurations',
                   onPressed: () {
-                    ref.read(gridStateProvider.notifier).resetState();
+                    ref.read(gridStateControllerProvider.notifier).resetState();
                     resetKey.value++;
                   },
                   child: Icon(Icons.restart_alt),
@@ -141,16 +124,77 @@ class IssuesPage extends HookConsumerWidget {
     );
   }
 
+  void saveGridState(
+    WidgetRef ref,
+    ObjectRef<PlutoGridStateManager?> stateManager,
+  ) {
+    if (stateManager.value == null) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final gridStateCtl = ref.read(gridStateControllerProvider.notifier);
+
+      gridStateCtl.setColumnsState(
+        PlutoGridUtils.saveColumnsState(stateManager.value!),
+      );
+      gridStateCtl.setRowGroupExpandend(
+        PlutoGridUtils.saveRowGroupExpandedState(stateManager.value!),
+      );
+    });
+  }
+
+  void saveGridStateOnDispose(
+    GridStateController gridStateCtl,
+    ObjectRef<PlutoGridStateManager?> stateManager,
+  ) {
+    if (stateManager.value == null) {
+      return;
+    }
+
+    gridStateCtl.setColumnsState(
+      PlutoGridUtils.saveColumnsState(stateManager.value!),
+    );
+    gridStateCtl.setRowGroupExpandend(
+      PlutoGridUtils.saveRowGroupExpandedState(stateManager.value!),
+    );
+  }
+
+  void restoreGridState(
+    WidgetRef ref,
+    ObjectRef<PlutoGridStateManager?> stateManager,
+  ) {
+    if (stateManager.value == null) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final gridState = ref.read(gridStateControllerProvider);
+
+      PlutoGridUtils.restoreRowGroupExpandedState(
+        stateManager.value!,
+        gridState.expandedRowGroups,
+      );
+
+      PlutoGridUtils.restoreColumnState(
+        stateManager.value!,
+        gridState.columnState,
+      );
+    });
+  }
+
   Future<void> onRowDoubleTap(
     WidgetRef ref,
     PlutoRow row,
-    List<RedmineIssue> issues,
+    ObjectRef<PlutoGridStateManager?> stateManager,
   ) async {
     if (row.type.isGroup) {
       return;
     }
+    saveGridState(ref, stateManager);
 
     final timers = ref.read(timersProvider.notifier);
+    final issues = ref.read(redmineIssuesProvider.notifier).get();
 
     final issueId = (row.cells['id']!.value as int);
     final issue = issues.where((x) => x.id == issueId).first;
@@ -161,31 +205,28 @@ class IssuesPage extends HookConsumerWidget {
   void onPlutoLoaded(
     WidgetRef ref,
     PlutoGridStateManager stateManager,
-    PlutoGridState gridState,
+    VoidCallback restoreCallback,
   ) {
-    stateManager.setRowGroup(
-      PlutoRowGroupByColumnDelegate(
-        columns: [stateManager.columns[0]],
-        showCount: true,
-        enableCompactCount: true,
-      ),
-    );
+    final gridStateCtl = ref.read(gridStateControllerProvider.notifier);
+
+    stateManager.resizingChangeNotifier.addListener(() {
+      // FIXME - not ideal, as the state is rebuilt with every change
+      debounce(300, gridStateCtl.setColumnsState, [
+        PlutoGridUtils.saveColumnsState(stateManager),
+      ]);
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      PlutoGridUtils.restoreColumnState(stateManager, gridState.columnState);
-      PlutoGridUtils.restoreRowGroupExpandedState(
-        stateManager,
-        gridState.expandedRowGroups,
+      stateManager.setRowGroup(
+        PlutoRowGroupByColumnDelegate(
+          columns: [stateManager.columns[0]],
+          showCount: true,
+          enableCompactCount: true,
+        ),
       );
-    });
-  }
 
-  void onSearch(String query, ValueNotifier<List<RedmineIssue>> issues) {
-    issues.value = issues.value.where((i) {
-      return i.id.toString().contains(query) ||
-          i.project.name.contains(query) ||
-          i.subject.contains(query);
-    }).toList();
+      restoreCallback();
+    });
   }
 
   List<PlutoColumn> buildColumns() {

@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
-import 'package:ritt/app/models/timer.dart';
 import 'package:ritt/app/providers/app_store.dart';
 import 'package:ritt/app/providers/settings.dart';
 import 'package:ritt/redmine/models/redmine_issue.dart';
 import 'package:ritt/redmine/providers/redmine_issue.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../models/timer.dart';
 
 part 'timers.g.dart';
 

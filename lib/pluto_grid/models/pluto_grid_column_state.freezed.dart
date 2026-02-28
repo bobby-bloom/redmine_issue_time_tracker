@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PlutoGridColumnState {
 
- int get order; bool get visible; PlutoColumnFrozen get frozen; PlutoColumnSort get sort;
+ int get order; bool get visible; double get width; PlutoColumnFrozen get frozen; PlutoColumnSort get sort;
 /// Create a copy of PlutoGridColumnState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PlutoGridColumnStateCopyWith<PlutoGridColumnState> get copyWith => _$PlutoGridC
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlutoGridColumnState&&(identical(other.order, order) || other.order == order)&&(identical(other.visible, visible) || other.visible == visible)&&(identical(other.frozen, frozen) || other.frozen == frozen)&&(identical(other.sort, sort) || other.sort == sort));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlutoGridColumnState&&(identical(other.order, order) || other.order == order)&&(identical(other.visible, visible) || other.visible == visible)&&(identical(other.width, width) || other.width == width)&&(identical(other.frozen, frozen) || other.frozen == frozen)&&(identical(other.sort, sort) || other.sort == sort));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,order,visible,frozen,sort);
+int get hashCode => Object.hash(runtimeType,order,visible,width,frozen,sort);
 
 @override
 String toString() {
-  return 'PlutoGridColumnState(order: $order, visible: $visible, frozen: $frozen, sort: $sort)';
+  return 'PlutoGridColumnState(order: $order, visible: $visible, width: $width, frozen: $frozen, sort: $sort)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PlutoGridColumnStateCopyWith<$Res>  {
   factory $PlutoGridColumnStateCopyWith(PlutoGridColumnState value, $Res Function(PlutoGridColumnState) _then) = _$PlutoGridColumnStateCopyWithImpl;
 @useResult
 $Res call({
- int order, bool visible, PlutoColumnFrozen frozen, PlutoColumnSort sort
+ int order, bool visible, double width, PlutoColumnFrozen frozen, PlutoColumnSort sort
 });
 
 
@@ -65,11 +65,12 @@ class _$PlutoGridColumnStateCopyWithImpl<$Res>
 
 /// Create a copy of PlutoGridColumnState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? order = null,Object? visible = null,Object? frozen = null,Object? sort = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? order = null,Object? visible = null,Object? width = null,Object? frozen = null,Object? sort = null,}) {
   return _then(_self.copyWith(
 order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,visible: null == visible ? _self.visible : visible // ignore: cast_nullable_to_non_nullable
-as bool,frozen: null == frozen ? _self.frozen : frozen // ignore: cast_nullable_to_non_nullable
+as bool,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
+as double,frozen: null == frozen ? _self.frozen : frozen // ignore: cast_nullable_to_non_nullable
 as PlutoColumnFrozen,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as PlutoColumnSort,
   ));
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int order,  bool visible,  PlutoColumnFrozen frozen,  PlutoColumnSort sort)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int order,  bool visible,  double width,  PlutoColumnFrozen frozen,  PlutoColumnSort sort)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PlutoGridColumnState() when $default != null:
-return $default(_that.order,_that.visible,_that.frozen,_that.sort);case _:
+return $default(_that.order,_that.visible,_that.width,_that.frozen,_that.sort);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.order,_that.visible,_that.frozen,_that.sort);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int order,  bool visible,  PlutoColumnFrozen frozen,  PlutoColumnSort sort)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int order,  bool visible,  double width,  PlutoColumnFrozen frozen,  PlutoColumnSort sort)  $default,) {final _that = this;
 switch (_that) {
 case _PlutoGridColumnState():
-return $default(_that.order,_that.visible,_that.frozen,_that.sort);case _:
+return $default(_that.order,_that.visible,_that.width,_that.frozen,_that.sort);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.order,_that.visible,_that.frozen,_that.sort);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int order,  bool visible,  PlutoColumnFrozen frozen,  PlutoColumnSort sort)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int order,  bool visible,  double width,  PlutoColumnFrozen frozen,  PlutoColumnSort sort)?  $default,) {final _that = this;
 switch (_that) {
 case _PlutoGridColumnState() when $default != null:
-return $default(_that.order,_that.visible,_that.frozen,_that.sort);case _:
+return $default(_that.order,_that.visible,_that.width,_that.frozen,_that.sort);case _:
   return null;
 
 }
@@ -212,11 +213,12 @@ return $default(_that.order,_that.visible,_that.frozen,_that.sort);case _:
 @JsonSerializable()
 
 class _PlutoGridColumnState implements PlutoGridColumnState {
-  const _PlutoGridColumnState({required this.order, required this.visible, required this.frozen, required this.sort});
+  const _PlutoGridColumnState({required this.order, required this.visible, required this.width, required this.frozen, required this.sort});
   factory _PlutoGridColumnState.fromJson(Map<String, dynamic> json) => _$PlutoGridColumnStateFromJson(json);
 
 @override final  int order;
 @override final  bool visible;
+@override final  double width;
 @override final  PlutoColumnFrozen frozen;
 @override final  PlutoColumnSort sort;
 
@@ -233,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlutoGridColumnState&&(identical(other.order, order) || other.order == order)&&(identical(other.visible, visible) || other.visible == visible)&&(identical(other.frozen, frozen) || other.frozen == frozen)&&(identical(other.sort, sort) || other.sort == sort));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlutoGridColumnState&&(identical(other.order, order) || other.order == order)&&(identical(other.visible, visible) || other.visible == visible)&&(identical(other.width, width) || other.width == width)&&(identical(other.frozen, frozen) || other.frozen == frozen)&&(identical(other.sort, sort) || other.sort == sort));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,order,visible,frozen,sort);
+int get hashCode => Object.hash(runtimeType,order,visible,width,frozen,sort);
 
 @override
 String toString() {
-  return 'PlutoGridColumnState(order: $order, visible: $visible, frozen: $frozen, sort: $sort)';
+  return 'PlutoGridColumnState(order: $order, visible: $visible, width: $width, frozen: $frozen, sort: $sort)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$PlutoGridColumnStateCopyWith<$Res> implements $PlutoGridC
   factory _$PlutoGridColumnStateCopyWith(_PlutoGridColumnState value, $Res Function(_PlutoGridColumnState) _then) = __$PlutoGridColumnStateCopyWithImpl;
 @override @useResult
 $Res call({
- int order, bool visible, PlutoColumnFrozen frozen, PlutoColumnSort sort
+ int order, bool visible, double width, PlutoColumnFrozen frozen, PlutoColumnSort sort
 });
 
 
@@ -270,11 +272,12 @@ class __$PlutoGridColumnStateCopyWithImpl<$Res>
 
 /// Create a copy of PlutoGridColumnState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? order = null,Object? visible = null,Object? frozen = null,Object? sort = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? order = null,Object? visible = null,Object? width = null,Object? frozen = null,Object? sort = null,}) {
   return _then(_PlutoGridColumnState(
 order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,visible: null == visible ? _self.visible : visible // ignore: cast_nullable_to_non_nullable
-as bool,frozen: null == frozen ? _self.frozen : frozen // ignore: cast_nullable_to_non_nullable
+as bool,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
+as double,frozen: null == frozen ? _self.frozen : frozen // ignore: cast_nullable_to_non_nullable
 as PlutoColumnFrozen,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as PlutoColumnSort,
   ));

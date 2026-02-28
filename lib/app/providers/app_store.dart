@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:ritt/pluto_grid/models/pluto_grid_state.dart';
-import 'package:ritt/app/models/timer.dart';
 import 'package:ritt/app/models/user_settings.dart';
 import 'package:ritt/app/providers/shared_preferences.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../timer/models/timer.dart';
 
 part 'app_store.g.dart';
 
@@ -57,13 +57,7 @@ class AppStore {
     }
 
     final decoded = jsonDecode(raw);
-    try {
-      return storeKey.fromJson(decoded);
-    } catch (e) {
-      debugPrint(e.toString());
-      // TODO - Handle/Log exception;
-      return null;
-    }
+    return storeKey.fromJson(decoded);
   }
 
   Future<void> write<T>(StoreKey<T> storeKey, T value) async {

@@ -2,13 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ritt/app/models/timer.dart';
 import 'package:ritt/app/providers/settings.dart';
-import 'package:ritt/app/providers/timers.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
 import 'package:ritt/app/ui/dialogs/post_time_dialog.dart';
 import 'package:ritt/app/ui/dialogs/timer_form_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../models/timer.dart';
+import '../providers/timers.dart';
 
 class TimerWidget extends ConsumerWidget {
   const TimerWidget({
@@ -30,7 +31,7 @@ class TimerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      constraints: BoxConstraints(maxHeight: 178),
+      constraints: BoxConstraints(maxHeight: 182),
       child: Card(
         margin: const EdgeInsets.only(bottom: 16),
         elevation: 2,
@@ -75,6 +76,14 @@ class TimerWidgetContentTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dotSpacer = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Text(
+        '•',
+        style: TextStyle(color: context.colorScheme.onSurfaceVariant),
+      ),
+    );
+
     return Column(
       crossAxisAlignment: .start,
       children: [
@@ -94,21 +103,19 @@ class TimerWidgetContentTop extends StatelessWidget {
                 color: context.colorScheme.onSurfaceVariant,
               ),
             const SizedBox(width: 4),
-            Text(
-              timer.issue?.project.name ?? '',
-              style: context.textTheme.bodySmall?.copyWith(
-                color: context.colorScheme.onSurfaceVariant,
+            Flexible(
+              child: Text(
+                timer.issue?.project.name ?? '',
+                softWrap: true,
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
             if (timer.issueId != null) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  '•',
-                  style: TextStyle(color: context.colorScheme.onSurfaceVariant),
-                ),
-              ),
+              dotSpacer,
               RichText(
+                softWrap: true,
                 text: TextSpan(
                   text: '#${timer.issueId}',
                   style: context.textTheme.bodySmall?.copyWith(
@@ -122,15 +129,7 @@ class TimerWidgetContentTop extends StatelessWidget {
                 ),
               ),
               if (timer.issue?.tracker != null) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    '•',
-                    style: TextStyle(
-                      color: context.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
+                dotSpacer,
                 Text(
                   timer.issue!.tracker!.name,
                   style: context.textTheme.bodySmall?.copyWith(
@@ -171,8 +170,8 @@ class TimerWidgetContentBottom extends HookConsumerWidget {
         ? null
         : [
             BoxShadow(
-              color: context.colorScheme.primary.withOpacity(
-                0.3 * animationController.value,
+              color: context.colorScheme.primary.withAlpha(
+                (255 * 0.3 * animationController.value).toInt(),
               ),
               blurRadius: 12,
               spreadRadius: 2,

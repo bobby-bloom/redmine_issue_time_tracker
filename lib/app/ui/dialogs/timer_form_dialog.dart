@@ -2,10 +2,9 @@ import 'package:flutter/material.dart' hide FormField, TextField, Form;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
 import 'package:ritt/app/ui/dialogs/request_dialog.dart';
+import 'package:ritt/timer/models/timer.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart'
     show Form, FormField, FormKey, InputKey, SubmitButton, TextField;
-
-import '../../models/timer.dart';
 
 typedef OnTimerFormDialogSubmit =
     Future<void> Function(int? issueId, String? subject);

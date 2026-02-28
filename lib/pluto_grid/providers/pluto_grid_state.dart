@@ -9,7 +9,7 @@ part 'pluto_grid_state.g.dart';
 final storeKey = AppKeys.plutoGridState;
 
 @Riverpod(keepAlive: true, dependencies: [appStore])
-class GridState extends _$GridState {
+class GridStateController extends _$GridStateController {
   @override
   PlutoGridState build() {
     final appStore = ref.watch(appStoreProvider);

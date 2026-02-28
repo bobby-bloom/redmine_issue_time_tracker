@@ -10,11 +10,10 @@ import 'package:ritt/redmine/models/time_entry.dart';
 import 'package:ritt/redmine/providers/redmine_service.dart';
 import 'package:ritt/redmine/providers/redmine_time_entry_activities.dart';
 import 'package:ritt/redmine/providers/redmine_user.dart';
-import 'package:ritt/app/providers/timers.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
+import 'package:ritt/timer/providers/timers.dart';
+import 'package:ritt/timer/models/timer.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' as shadcn;
-
-import '../../models/timer.dart';
 
 class PostTimeDialog extends HookConsumerWidget {
   const PostTimeDialog({super.key, required this.timer});

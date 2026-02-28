@@ -10,6 +10,7 @@ abstract class PlutoGridColumnState with _$PlutoGridColumnState {
   const factory PlutoGridColumnState({
     required int order,
     required bool visible,
+    required double width,
     required PlutoColumnFrozen frozen,
     required PlutoColumnSort sort,
   }) = _PlutoGridColumnState;

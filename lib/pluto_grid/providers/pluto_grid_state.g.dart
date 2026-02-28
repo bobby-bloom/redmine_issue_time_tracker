@@ -9,32 +9,32 @@ part of 'pluto_grid_state.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(GridState)
-final gridStateProvider = GridStateProvider._();
+@ProviderFor(GridStateController)
+final gridStateControllerProvider = GridStateControllerProvider._();
 
-final class GridStateProvider
-    extends $NotifierProvider<GridState, PlutoGridState> {
-  GridStateProvider._()
+final class GridStateControllerProvider
+    extends $NotifierProvider<GridStateController, PlutoGridState> {
+  GridStateControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'gridStateProvider',
+        name: r'gridStateControllerProvider',
         isAutoDispose: false,
         dependencies: <ProviderOrFamily>[appStoreProvider],
         $allTransitiveDependencies: <ProviderOrFamily>[
-          GridStateProvider.$allTransitiveDependencies0,
+          GridStateControllerProvider.$allTransitiveDependencies0,
         ],
       );
 
   static final $allTransitiveDependencies0 = appStoreProvider;
 
   @override
-  String debugGetCreateSourceHash() => _$gridStateHash();
+  String debugGetCreateSourceHash() => _$gridStateControllerHash();
 
   @$internal
   @override
-  GridState create() => GridState();
+  GridStateController create() => GridStateController();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(PlutoGridState value) {
@@ -45,9 +45,10 @@ final class GridStateProvider
   }
 }
 
-String _$gridStateHash() => r'6da4589bdaf56ed818c7909144734da893c8148b';
+String _$gridStateControllerHash() =>
+    r'319658595317704336ccdee31ffc4eccb204d4fc';
 
-abstract class _$GridState extends $Notifier<PlutoGridState> {
+abstract class _$GridStateController extends $Notifier<PlutoGridState> {
   PlutoGridState build();
   @$mustCallSuper
   @override

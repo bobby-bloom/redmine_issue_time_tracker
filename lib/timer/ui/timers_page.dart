@@ -3,11 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ritt/app/models/timer.dart';
 import 'package:ritt/app/ui/dialogs/timer_form_dialog.dart';
-import 'package:ritt/app/ui/pages/timer_widget.dart';
-import 'package:ritt/app/providers/timers.dart';
+import 'package:ritt/timer/ui/timer_widget.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
+
+import '../models/timer.dart';
+import '../providers/timers.dart';
 
 class TimersPage extends HookConsumerWidget {
   const TimersPage({super.key});
@@ -74,7 +75,7 @@ class NoTimersPlaceholder extends StatelessWidget {
             size: 64,
             color: Theme.of(
               context,
-            ).colorScheme.onSurfaceVariant.withOpacity(0.5),
+            ).colorScheme.onSurfaceVariant.withAlpha((255 * 0.5).toInt()),
           ),
           const SizedBox(height: 16),
           Text(
@@ -89,7 +90,7 @@ class NoTimersPlaceholder extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(
                 context,
-              ).colorScheme.onSurfaceVariant.withOpacity(0.7),
+              ).colorScheme.onSurfaceVariant.withAlpha((255 * 0.7).toInt()),
             ),
           ),
         ],

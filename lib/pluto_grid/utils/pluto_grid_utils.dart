@@ -21,7 +21,7 @@ class PlutoGridUtils {
     PlutoGridStateManager stateManager,
     Map<String, bool> expandedState,
   ) {
-    for (final row in stateManager.iterateAllRowGroup.toList()) {
+    for (final row in stateManager.iterateAllRowGroup) {
       if (row.type.isGroup) {
         final rowKey = row.key.toString();
         final shouldBeExpanded = expandedState[rowKey] ?? false;
@@ -39,6 +39,7 @@ class PlutoGridUtils {
     return PlutoGridColumnState(
       order: order,
       visible: !column.hide,
+      width: column.width,
       frozen: column.frozen,
       sort: column.sort,
     );
@@ -107,6 +108,8 @@ class PlutoGridUtils {
       } else if (state.sort.isDescending) {
         stateManager.sortDescending(column, notify: false);
       }
+
+      column.width = state.width;
     }
 
     final visibleSorted =

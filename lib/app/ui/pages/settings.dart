@@ -20,7 +20,7 @@ import 'package:ritt/app/ui/dialogs/async_value_dialog.dart';
 import 'package:ritt/redmine/models/redmine_issue_status.dart';
 import 'package:ritt/redmine/providers/redmine_user.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' as shadcn;
-import 'package:shadcn_flutter/shadcn_flutter_experimental.dart' as shadcnExp;
+import 'package:shadcn_flutter/shadcn_flutter_experimental.dart' as shadcn_exp;
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
@@ -145,7 +145,7 @@ class SettingsPage extends HookConsumerWidget {
                 SizedBox(
                   width: 115,
                   height: 36,
-                  child: shadcnExp.TextField(
+                  child: shadcn_exp.TextField(
                     initialValue: (settings.roundTimeEntryUpToMinute)
                         .toString(),
                     controller: roundTimeEntryUpToMinuteCtl,
