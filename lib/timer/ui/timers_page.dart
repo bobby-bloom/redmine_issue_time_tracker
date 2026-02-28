@@ -3,12 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ritt/app/ui/dialogs/timer_form_dialog.dart';
 import 'package:ritt/timer/ui/timer_widget.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
 
 import '../models/timer.dart';
 import '../providers/timers.dart';
+import '../ui/dialog/timer_form_dialog.dart';
 
 class TimersPage extends HookConsumerWidget {
   const TimersPage({super.key});

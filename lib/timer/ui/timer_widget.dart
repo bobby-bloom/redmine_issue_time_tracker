@@ -5,11 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ritt/app/providers/settings.dart';
 import 'package:ritt/app/theme/theme_extensions.dart';
 import 'package:ritt/app/ui/dialogs/post_time_dialog.dart';
-import 'package:ritt/app/ui/dialogs/timer_form_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/timer.dart';
 import '../providers/timers.dart';
+import '../ui/dialog/timer_form_dialog.dart';
 
 class TimerWidget extends ConsumerWidget {
   const TimerWidget({

@@ -26,7 +26,7 @@ class TimerFormDialog extends ConsumerWidget {
       try {
         await onSubmit?.call(
           int.tryParse(form[idFormKey] ?? ''),
-          form[subjectFormKey] as String,
+          form[subjectFormKey] as String?,
         );
         succeded = true;
       } catch (error) {
