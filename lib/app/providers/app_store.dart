@@ -56,8 +56,13 @@ class AppStore {
       return null;
     }
 
-    final decoded = jsonDecode(raw);
-    return storeKey.fromJson(decoded);
+    try {
+      final decoded = jsonDecode(raw);
+      return storeKey.fromJson(decoded);
+    } catch (e) {
+      // FIXME - Logging
+      return null;
+    }
   }
 
   Future<void> write<T>(StoreKey<T> storeKey, T value) async {

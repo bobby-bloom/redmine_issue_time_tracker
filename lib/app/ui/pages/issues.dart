@@ -53,7 +53,11 @@ class IssuesPage extends HookConsumerWidget {
       final gridStateCtl = ref.read(gridStateControllerProvider.notifier);
 
       return () {
-        saveGridStateOnDispose(gridStateCtl, stateManager);
+        final future = Future.delayed(Duration(microseconds: 1), () {
+          saveGridStateOnDispose(gridStateCtl, stateManager);
+        });
+
+        Future.wait([future]);
       };
     }, const []);
 
